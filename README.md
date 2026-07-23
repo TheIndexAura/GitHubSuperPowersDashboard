@@ -15,7 +15,7 @@ people who live in a terminal.
 Or go offline: download [`index.html`](index.html), double-click it. That's the entire app.
 One file. No build, no dependencies, no account, no tracking.
 
-🎬 [Watch the 33-second tour](https://raw.githubusercontent.com/TheIndexAura/GitHubSuperPowersDashboard/main/media/commercial.mp4)
+🎬 [Watch the 33-second tour on YouTube](https://youtu.be/27uKyyCAZBc)
 
 ## What can it do?
 
