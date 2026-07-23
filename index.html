@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub Superpowers — 26 cheat codes, one paste</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2129; --border:#30363d;
+  --fg:#e6edf3; --fg2:#9aa4b2; --accent:#58a6ff; --accent2:#3fb950;
+  --warn:#d29922; --danger:#f85149; --pill-native:#1f6feb33; --pill-native-fg:#79c0ff;
+  --pill-third:#d2992233; --pill-third-fg:#e3b341; --pill-cli:#8957e533; --pill-cli-fg:#b392f0;
+  --card-shadow:0 2px 10px rgba(0,0,0,.35); --radius:12px;
+}
+[data-theme="light"]{
+  --bg:#f6f8fa; --bg2:#ffffff; --bg3:#eef1f4; --border:#d0d7de;
+  --fg:#1f2328; --fg2:#57606a; --accent:#0969da; --accent2:#1a7f37;
+  --warn:#9a6700; --danger:#cf222e; --pill-native:#ddf4ff; --pill-native-fg:#0969da;
+  --pill-third:#fff8c5; --pill-third-fg:#7d4e00; --pill-cli:#fbefff; --pill-cli-fg:#8250df;
+  --card-shadow:0 1px 4px rgba(31,35,40,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;min-height:100vh}
+code,kbd,.url{font-family:ui-monospace,SFMono-Regular,"Cascadia Mono",Consolas,monospace}
+a{color:var(--accent)}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px}
+
+/* header */
+header{display:flex;align-items:center;gap:12px;padding:22px 0 8px;flex-wrap:wrap}
+.logo{font-size:1.55rem;font-weight:800;letter-spacing:-.02em}
+.logo .zap{color:var(--warn)}
+.tag{color:var(--fg2);font-size:.92rem;flex:1;min-width:200px}
+.iconbtn{border:1px solid var(--border);background:var(--bg2);border-radius:8px;padding:6px 12px;color:var(--fg);font-size:.9rem}
+.iconbtn:hover{border-color:var(--accent)}
+
+/* input zone */
+.inputzone{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:14px;box-shadow:var(--card-shadow)}
+.inputrow{display:flex;gap:10px;flex-wrap:wrap}
+#url{flex:1;min-width:260px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--fg);padding:12px 14px;font-size:1.02rem}
+#url:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+.demo{background:var(--accent);color:#fff;border-radius:8px;padding:12px 18px;font-weight:600}
+.demo:hover{filter:brightness(1.1)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;min-height:28px;align-items:center}
+.chip{background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:.82rem;color:var(--fg2)}
+.chip b{color:var(--fg);font-weight:600}
+.chip.ok{border-color:var(--accent2)}
+.chip.bad{border-color:var(--danger);color:var(--danger)}
+.branchrow{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;font-size:.88rem;color:var(--fg2)}
+#branch{background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--fg);padding:4px 10px;width:130px;font-size:.88rem}
+.bchip{border:1px solid var(--border);border-radius:999px;padding:2px 10px;font-size:.8rem;color:var(--fg2)}
+.bchip:hover{border-color:var(--accent);color:var(--fg)}
+
+/* mode switch */
+.modebar{display:flex;justify-content:center;margin:26px 0 6px}
+.modebtn{border:1px solid var(--border);background:var(--bg2);border-radius:999px;padding:10px 22px;font-size:.95rem;font-weight:600;color:var(--fg)}
+.modebtn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* simple mode */
+.simplegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:18px}
+.bigbtn{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;text-align:left;box-shadow:var(--card-shadow);transition:transform .12s,border-color .12s;display:block;width:100%}
+.bigbtn:hover:not(:disabled){transform:translateY(-3px);border-color:var(--accent)}
+.bigbtn:disabled{opacity:.45;cursor:not-allowed}
+.bigbtn .em{font-size:1.9rem;display:block;margin-bottom:8px}
+.bigbtn .t{font-size:1.08rem;font-weight:700;display:block}
+.bigbtn .d{font-size:.88rem;color:var(--fg2);display:block;margin-top:4px}
+.bigbtn .via{font-size:.75rem;color:var(--fg2);display:block;margin-top:10px;opacity:.8}
+
+/* deck mode */
+.deckbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid var(--border);background:var(--bg2);border-radius:999px;padding:5px 14px;font-size:.85rem;color:var(--fg2)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+#search{background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg);padding:7px 12px;font-size:.9rem;min-width:170px;flex:1;max-width:260px}
+#kindfilter{background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg);padding:7px 10px;font-size:.9rem}
+.deckgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:8px;position:relative}
+.card.disabled{opacity:.5}
+.card .top{display:flex;align-items:center;gap:8px}
+.num{background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-size:.72rem;padding:1px 7px;color:var(--fg2);font-weight:700}
+.card h3{font-size:1rem;font-weight:700;flex:1}
+.pill{font-size:.68rem;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.pill.native{background:var(--pill-native);color:var(--pill-native-fg)}
+.pill.third{background:var(--pill-third);color:var(--pill-third-fg)}
+.pill.cli{background:var(--pill-cli);color:var(--pill-cli-fg)}
+.card .desc{font-size:.87rem;color:var(--fg2)}
+.card .when{font-size:.78rem;color:var(--fg2);opacity:.85;border-left:3px solid var(--border);padding-left:8px}
+.card .url{font-size:.74rem;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px}
+.card .miss{font-size:.8rem;color:var(--warn)}
+.cardbtns{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+.act{border:1px solid var(--border);background:var(--bg3);border-radius:7px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--fg)}
+.act:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.act.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.act.primary:hover:not(:disabled){filter:brightness(1.12);color:#fff}
+.act:disabled{opacity:.5;cursor:not-allowed}
+.opt{display:flex;gap:6px;align-items:center;font-size:.78rem;color:var(--fg2);flex-wrap:wrap}
+.opt select,.opt input{background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--fg);padding:3px 7px;font-size:.78rem}
+.opt input[type=number]{width:70px}
+.tierlabel{position:absolute;top:-9px;right:12px;font-size:.64rem;font-weight:800;letter-spacing:.06em;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:1px 9px;color:var(--fg2)}
+.tierlabel.daily{color:var(--accent2);border-color:var(--accent2)}
+.tierlabel.weekly{color:var(--accent);border-color:var(--accent)}
+.tierlabel.situational{color:var(--warn);border-color:var(--warn)}
+.tierlabel.showoff{color:#db61a2;border-color:#db61a2}
+
+/* modal */
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal-back.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);max-width:440px;padding:24px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.modal h3{margin-bottom:10px}
+.modal p{font-size:.9rem;color:var(--fg2);margin-bottom:8px}
+.modal .dom{color:var(--warn);font-weight:700}
+.modal label{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--fg2);margin:14px 0}
+.modal .btns{display:flex;gap:10px;justify-content:flex-end}
+
+/* toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--accent2);color:var(--fg);border-radius:8px;padding:10px 20px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+#toast.show{opacity:1}
+
+footer{margin-top:48px;border-top:1px solid var(--border);padding-top:18px;font-size:.82rem;color:var(--fg2);text-align:center}
+footer a{color:var(--fg2)}
+.hidden{display:none!important}
+h2.sec{font-size:1.05rem;margin:22px 0 4px;color:var(--fg2);font-weight:600}
+#testout{margin-top:20px;font-size:.8rem}
+#testout table{border-collapse:collapse;width:100%}
+#testout td,#testout th{border:1px solid var(--border);padding:4px 8px;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo"><span class="zap">⚡</span> GitHub Superpowers</div>
+  <div class="tag">Paste a GitHub link. Click a power. That's it — 26 cheat codes, zero setup.</div>
+  <a class="iconbtn" href="https://github.com/TheIndexAura/GitHubSuperPowersDashboard"
+     target="_blank" rel="noopener noreferrer" style="text-decoration:none" title="Star this project on GitHub">⭐ Star on GitHub</a>
+  <button class="iconbtn" id="themebtn" title="Switch light/dark">🌓</button>
+</header>
+
+<div class="inputzone">
+  <div class="inputrow">
+    <input id="url" type="text" spellcheck="false" autocomplete="off"
+      placeholder="Paste a GitHub link here — like https://github.com/karpathy/nanoGPT (or just owner/repo)">
+    <button class="demo" id="demobtn" title="Load an example repo">Try a demo repo</button>
+  </div>
+  <div class="chips" id="chips"><span class="chip">Waiting for a link… works with repo, file, folder, commit, PR and profile links. Some rare link types aren't supported — the chips below will tell you honestly.</span></div>
+  <div class="branchrow" id="branchrow">
+    <span>Branch (the version line of the code — usually <code>main</code>):</span>
+    <input id="branch" placeholder="main" spellcheck="false">
+    <button class="bchip" data-b="main">main</button>
+    <button class="bchip" data-b="master">master</button>
+    <span id="branchsrc"></span>
+  </div>
+</div>
+
+<div class="modebar">
+  <button class="modebtn" id="modebtn">⚙️ Show all 26 powers</button>
+</div>
+
+<!-- SIMPLE MODE -->
+<section id="simple">
+  <h2 class="sec">What do you want to do with this repo?</h2>
+  <div class="simplegrid" id="simplegrid"></div>
+</section>
+
+<!-- FULL DECK -->
+<section id="deck" class="hidden">
+  <div class="deckbar">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tier="all">All 26</button>
+      <button class="tab" data-tier="daily">Daily</button>
+      <button class="tab" data-tier="weekly">Weekly</button>
+      <button class="tab" data-tier="situational">Situational</button>
+      <button class="tab" data-tier="showoff">Show-off</button>
+    </div>
+    <select id="kindfilter">
+      <option value="all">All types</option>
+      <option value="native">Stays on GitHub</option>
+      <option value="third">Outside sites</option>
+      <option value="cli">Terminal tools</option>
+    </select>
+    <input id="search" type="search" placeholder="Search powers…">
+  </div>
+  <div class="deckgrid" id="deckgrid"></div>
+</section>
+
+<div id="testout"></div>
+
+<footer>
+  All 26 codes from the <a href="https://www.youtube.com/watch?v=GINTfprgC7Y" target="_blank" rel="noopener noreferrer">Hyperautomation Labs</a> cheat-code deck · links last verified 2026-07-20.<br>
+  Codes marked <b>Stays on GitHub</b> are GitHub/Microsoft official and fine on your private repos while signed in.<br>
+  <b>Outside sites</b> are third-party tools — public repos only. Never feed them private code or secrets.<br>
+  Made by <a href="https://github.com/TheIndexAura/GitHubSuperPowersDashboard" target="_blank" rel="noopener noreferrer">TheIndexAura</a> — free &amp; open source (MIT). Fork it, add power #27.
+</footer>
+</div>
+
+<!-- third-party warning modal -->
+<div class="modal-back" id="modalback">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>⚠️ Heads up — leaving GitHub</h3>
+    <p>This power sends the repo's address to an outside website: <span class="dom" id="modaldom"></span></p>
+    <p><b>Public repos only.</b> Never use outside tools on private code, secrets, or keys — you don't control their servers.</p>
+    <label><input type="checkbox" id="modalremember" checked> Got it — don't warn me again on this device</label>
+    <div class="btns">
+      <button class="act" id="modalcancel">Cancel</button>
+      <button class="act primary" id="modalgo">Continue</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* =========================================================
+   THE 26 POWERS — add #27 here. Each power:
+   num, id, name, emoji, kind: native|third|cli,
+   tier: daily|weekly|situational|showoff|null,
+   desc (plain English), when (when to use),
+   needs: repo|file|folder|user|patchable,
+   build(ctx) -> {url} or {cmd} or {url,cmd} or {note}
+   verified: date the link was last confirmed alive
+   ========================================================= */
+const V='2026-07-20';
+const POWERS=[
+{num:1,id:'pressdot',name:'Press-dot editor',emoji:'⌨️',kind:'native',tier:null,verified:V,needs:'repo',
+ desc:'A full VS Code editor (a real code editor) opens in your browser. On GitHub you just press the . key — this button opens the same thing.',
+ when:'Reading or lightly editing code without installing anything.',
+ build:c=>({url:`https://github.dev/${c.owner}/${c.repo}${c.subpath||''}`})},
+{num:2,id:'githubdev',name:'github.dev share link',emoji:'🔗',kind:'native',tier:null,verified:V,needs:'repo',
+ desc:'Same browser editor as #1, but as a link you can send to anyone.',
+ when:'Sharing "open this repo in an editor" with one URL.',
+ build:c=>({url:`https://github.dev/${c.owner}/${c.repo}${c.subpath||''}`})},
+{num:3,id:'github1s',name:'github1s viewer',emoji:'👓',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'A lighter, read-only VS Code-style viewer. Loads fast.',
+ when:'Quickly reading code on a slow machine or connection.',
+ build:c=>({url:`https://github1s.com/${c.owner}/${c.repo}${c.subpath||''}`})},
+{num:4,id:'gitdiagram',name:'Architecture diagram',emoji:'🗺️',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Draws an interactive map of how the project is built. Click a box, jump to that code.',
+ when:'Understanding a new project\'s structure in one look.',
+ build:c=>({url:`https://gitdiagram.com/${c.owner}/${c.repo}`})},
+{num:5,id:'gitingest',name:'Flatten for AI (web)',emoji:'🧾',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Turns the whole repo into one big text page you can paste into ChatGPT/Claude, with a token count (how much AI "space" it uses).',
+ when:'Feeding an entire project to an AI in one paste.',
+ build:c=>({url:`https://gitingest.com/${c.owner}/${c.repo}`})},
+{num:6,id:'gitingestcli',name:'Flatten for AI (terminal)',emoji:'⌨️',kind:'cli',tier:null,verified:V,needs:'repo',
+ desc:'Same flatten as #5 but run from a terminal (a command window). Needs the gitingest tool installed.',
+ when:'Scripting repo-to-AI pipelines, or when the website is down.',
+ build:c=>({cmd:`gitingest https://github.com/${c.owner}/${c.repo}`,tool:'gitingest'})},
+{num:7,id:'gitmcp',name:'Live MCP server',emoji:'🤖',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Turns the repo into an MCP server (a live data feed AI assistants can query) so your AI stops guessing about the code.',
+ when:'Wiring a repo into Claude/Cursor so answers cite real files.',
+ build:c=>({url:`https://gitmcp.io/${c.owner}/${c.repo}`})},
+{num:8,id:'deepwiki',name:'Auto wiki + Ask box',emoji:'📖',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Builds an instant wiki (explainer site) for the repo, with an Ask box that answers questions and cites the exact files.',
+ when:'"Explain this project to me" — the fastest full picture.',
+ build:c=>({url:`https://deepwiki.com/${c.owner}/${c.repo}`})},
+{num:9,id:'githubgg',name:'Control panel',emoji:'🎛️',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'One page with copy-for-AI, a security scan, and a code quality score.',
+ when:'A quick multi-angle check before trusting a repo.',
+ build:c=>({url:`https://github.gg/${c.owner}/${c.repo}`})},
+{num:10,id:'stackblitz',name:'Boot it in the browser',emoji:'🚀',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Starts the project in a browser dev environment (a sandbox computer in a tab).',
+ when:'Trying a web project without installing anything.',
+ build:c=>({url:`https://stackblitz.com/github/${c.owner}/${c.repo}`})},
+{num:11,id:'bolt',name:'Import into AI builder',emoji:'🔩',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Loads the repo into bolt.new, an AI app builder, with an AI agent standing by to modify it.',
+ when:'"Take this project and change it for me" jobs.',
+ build:c=>({url:`https://bolt.new/github.com/${c.owner}/${c.repo}`})},
+{num:12,id:'starhistory',name:'Star history graph',emoji:'⭐',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Graphs the repo\'s stars over time. Sudden fake-looking spikes = bought hype.',
+ when:'Checking if a "popular" repo is genuinely popular.',
+ build:c=>({url:`https://star-history.com/#${c.owner}/${c.repo}&Date`})},
+{num:13,id:'gitpodcast',name:'Repo as a podcast',emoji:'🎙️',kind:'third',tier:null,verified:V,needs:'repo',
+ desc:'Two AI hosts talk through the repo like a podcast episode.',
+ when:'Learning a codebase while driving or doing dishes.',
+ build:c=>({url:`https://gitpodcast.com/${c.owner}/${c.repo}`})},
+{num:14,id:'keys',name:'Public keys (.keys)',emoji:'🔑',kind:'native',tier:'showoff',verified:V,needs:'user',
+ desc:'Shows anyone\'s public SSH keys (safe-to-share ID badges for servers) as plain text. Public by design.',
+ when:'Granting someone server access — pull keys straight from GitHub.',
+ opts:[{id:'keytype',type:'select',label:'Key type',choices:[['keys','SSH (.keys)'],['gpg','GPG (.gpg)']]}],
+ build:(c,o)=>({url:`https://github.com/${c.user||c.owner}.${o.keytype||'keys'}`})},
+{num:15,id:'timemachine',name:'Time machine diff',emoji:'⏰',kind:'native',tier:'daily',verified:V,needs:'repo',
+ desc:'One page showing EVERYTHING that changed in the repo over a time window.',
+ when:'Coming back to a fast-moving project. One page = the whole month.',
+ opts:[{id:'period',type:'select',label:'Window',choices:[['1week','last week'],['1month','last month'],['3months','last 3 months'],['date','since a date…']]},
+       {id:'since',type:'date',label:'Date',showIf:{period:'date'}}],
+ build:(c,o)=>{const b=c.branch||'main';const p=o.period==='date'?(o.since||'2026-01-01'):(o.period||'1month');
+   return {url:`https://github.com/${c.owner}/${c.repo}/compare/${b}@{${p}}...${b}`}}},
+{num:16,id:'dependents',name:'Who depends on it',emoji:'🌲',kind:'native',tier:'weekly',verified:V,needs:'repo',
+ desc:'Lists every public project that actually USES this one. Stars can be faked — dependents can\'t.',
+ when:'The 30-second background check before adopting any library.',
+ build:c=>({url:`https://github.com/${c.owner}/${c.repo}/network/dependents`})},
+{num:17,id:'patch',name:'.patch / .diff view',emoji:'📄',kind:'native',tier:'daily',verified:V,needs:'patchable',
+ desc:'Turns a commit, PR, or compare page into raw machine-readable text — the cleanest way to feed a change to an AI and ask "what could break?"',
+ when:'Reviewing any change with AI help. Chains with #15: month-diff as one file.',
+ opts:[{id:'fmt',type:'select',label:'Format',choices:[['patch','.patch (full)'],['diff','.diff (code only)']]}],
+ build:(c,o)=>{const f=o.fmt||'patch';
+   if(c.commit)return{url:`https://github.com/${c.owner}/${c.repo}/commit/${c.commit}.${f}`};
+   if(c.pr)return{url:`https://github.com/${c.owner}/${c.repo}/pull/${c.pr}.${f}`};
+   if(c.compare)return{url:`https://github.com/${c.owner}/${c.repo}/compare/${c.compare}.${f}`};
+   const b=c.branch||'main';return{url:`https://github.com/${c.owner}/${c.repo}/commit/${b}.${f}`,note:'No commit/PR in your link — this shows the LATEST commit\'s patch.'}}},
+{num:18,id:'atom',name:'Live feed (.atom)',emoji:'📡',kind:'native',tier:'weekly',verified:V,needs:'repo',
+ desc:'Turns the repo into a live news feed (RSS) — new releases or every commit. Put it in any feed reader or Slack.',
+ when:'Free breaking-change radar for the libraries you depend on.',
+ opts:[{id:'feed',type:'select',label:'Feed',choices:[['releases','new releases only'],['commits','every commit']]}],
+ build:(c,o)=>({url:(o.feed||'releases')==='releases'
+   ?`https://github.com/${c.owner}/${c.repo}/releases.atom`
+   :`https://github.com/${c.owner}/${c.repo}/commits/${c.branch||'main'}.atom`})},
+{num:19,id:'zip',name:'Download as ZIP',emoji:'📦',kind:'native',tier:null,verified:V,needs:'repo',
+ desc:'The whole repo as a normal zip file — no git, works in any browser. Pasted a FOLDER link? It grabs just that folder via download-directory.',
+ when:'Locked-down machines, or grabbing one example folder from a huge repo.',
+ build:c=>{if(c.isFolder)return{url:`https://download-directory.github.io/?url=${encodeURIComponent(`https://github.com/${c.owner}/${c.repo}/tree/${c.branch}/${c.path}`)}`,note:'Folder detected — downloading just that folder.'};
+   return{url:`https://github.com/${c.owner}/${c.repo}/archive/refs/heads/${c.branch||'main'}.zip`}}},
+{num:20,id:'linelink',name:'Line-exact link',emoji:'🎯',kind:'native',tier:null,verified:V,needs:'file',
+ desc:'A link that highlights EXACT lines of a file. For markdown files, adds ?plain=1 so line links work there too.',
+ when:'Code reviews, bug reports, Slack arguments — link THE line, win.',
+ opts:[{id:'l1',type:'number',label:'From line'},{id:'l2',type:'number',label:'to'}],
+ build:(c,o)=>{let u=`https://github.com/${c.owner}/${c.repo}/blob/${c.branch}/${c.path}`;
+   if(/\.(md|markdown|rst)$/i.test(c.path||''))u+='?plain=1';
+   const a=parseInt(o.l1),b=parseInt(o.l2);
+   if(a)u+=`#L${a}`+(b&&b>a?`-L${b}`:'');
+   return{url:u,note:a?null:'Tip: set line numbers above to highlight them.'}}},
+{num:21,id:'githistory',name:'File history movie',emoji:'🎞️',kind:'third',tier:'showoff',verified:V,needs:'file',
+ desc:'Plays a file\'s whole history as an animation — every version morphing into the next.',
+ when:'Understanding WHY a file looks that way, by watching how it got there.',
+ build:c=>({url:`https://github.githistory.xyz/${c.owner}/${c.repo}/blob/${c.branch}/${c.path}`})},
+{num:22,id:'codespaces',name:'Cloud dev machine',emoji:'☁️',kind:'native',tier:'situational',verified:V,needs:'repo',
+ desc:'OFFICIAL GitHub: a full cloud computer for this repo — real VS Code, real terminal, GitHub\'s hardware. Free hours monthly on personal accounts.',
+ when:'"I want to RUN this, right now" — one URL, nothing installed.',
+ build:c=>({url:`https://codespaces.new/${c.owner}/${c.repo}`})},
+{num:23,id:'vscodedev',name:'vscode.dev reader',emoji:'📘',kind:'native',tier:null,verified:V,needs:'repo',
+ desc:'Microsoft\'s genuine VS Code in a tab, loaded with the repo — extensions and settings sync work, even on an iPad.',
+ when:'"I want to READ this properly" — lighter than a cloud machine.',
+ build:c=>({url:`https://vscode.dev/github/${c.owner}/${c.repo}`})},
+{num:24,id:'prnew',name:'Instant PR editor',emoji:'🛠️',kind:'third',tier:'situational',verified:V,needs:'repo',
+ desc:'Opens the repo in StackBlitz Codeflow — a web editor wired specifically for making pull requests (proposed fixes).',
+ when:'See a typo in any project? Fix it in 5 minutes. First PR = one URL.',
+ build:c=>({url:`https://pr.new/github.com/${c.owner}/${c.repo}`})},
+{num:25,id:'repomix',name:'Repomix AI pack',emoji:'🧳',kind:'third',tier:'daily',verified:V,needs:'repo',
+ desc:'Packs the whole repo into one AI-ready file with include/exclude filters and token count. The evolution of gitingest.',
+ when:'Pack once → "explain this codebase like I\'m the new hire."',
+ build:c=>({url:'https://repomix.com',copyfirst:`https://github.com/${c.owner}/${c.repo}`,
+   note:'Repomix has no direct link-in — your repo URL is COPIED; paste it on their page.',
+   cmd:`npx repomix --remote ${c.owner}/${c.repo}`,tool:'repomix'})},
+{num:26,id:'ossinsight',name:'Full X-ray dashboard',emoji:'🩻',kind:'third',tier:'situational',verified:V,needs:'repo',
+ desc:'PR speed, issue response times, maintainers, contributing companies — plus side-by-side repo comparison.',
+ when:'Before the next "which library?" debate. Data ends arguments.',
+ build:c=>({url:`https://ossinsight.io/analyze/${c.owner}/${c.repo}`})}
+];
+
+/* Simple-mode intents: 6 big buttons mapped to powers */
+const INTENTS=[
+ {em:'📖',t:'Explain this repo',d:'An instant wiki + a box you can ask questions',p:'deepwiki'},
+ {em:'🧾',t:'Copy it for AI',d:'The whole repo as one paste for ChatGPT/Claude',p:'gitingest'},
+ {em:'🗺️',t:'See how it\'s built',d:'A clickable architecture map',p:'gitdiagram'},
+ {em:'📘',t:'Read the code',d:'Real VS Code in your browser — nothing installed',p:'vscodedev'},
+ {em:'📦',t:'Download it',d:'Whole repo (or one folder) as a zip file',p:'zip'},
+ {em:'🩻',t:'Health check',d:'Is this project alive and trustworthy?',p:'ossinsight'}
+];
+
+/* ---------------- URL parser ---------------- */
+const MIRROR_HOSTS=['github.com','www.github.com','github.dev','github1s.com','gitingest.com','deepwiki.com','github.gg','gitdiagram.com','gitmcp.io','gitpodcast.com'];
+function parseInput(raw){
+  raw=(raw||'').trim();
+  if(!raw)return null;
+  let path='',hash='';
+  if(/^[\w.-]+\/[\w.-]+$/.test(raw)&&!raw.includes('.com')){path=raw;}
+  else{
+    let u;try{u=new URL(raw.includes('://')?raw:'https://'+raw);}catch(e){return{error:'That doesn\'t look like a link I can read.'};}
+    const host=u.hostname.toLowerCase();
+    if(host==='codespaces.new'||host==='pr.new'){path=u.pathname.replace(/^\/(github\.com\/)?/,'');}
+    else if(host==='vscode.dev'){path=u.pathname.replace(/^\/github\//,'');}
+    else if(host==='ossinsight.io'){path=u.pathname.replace(/^\/analyze\//,'');}
+    else if(host==='github.githistory.xyz'){path=u.pathname.replace(/^\//,'');}
+    else if(MIRROR_HOSTS.includes(host)){path=u.pathname.replace(/^\//,'');}
+    else if(host==='gist.github.com'||host==='raw.githubusercontent.com'){return{error:'Gist and raw links aren\'t supported (yet) — paste a normal github.com link.'};}
+    else{return{error:`I don't recognize ${host} — paste a github.com link.`};}
+    hash=u.hash||'';
+  }
+  path=path.replace(/\/+$/,'');
+  const dec=s=>{try{return decodeURIComponent(s)}catch(e){return s}};
+  const seg=path.split('/').filter(Boolean).map(dec);
+  if(!seg.length)return{error:'No user or repo found in that link.'};
+  const ctx={raw,owner:seg[0],user:seg[0],repo:null,branch:null,branchFromUrl:false,path:null,isFile:false,isFolder:false,commit:null,pr:null,compare:null,subpath:'',lines:null,unsupported:null};
+  if(seg.length===1){return ctx;}
+  ctx.repo=seg[1].replace(/\.git$/,'');
+  if(seg.length>2){
+    const kind=seg[2];const rest=seg.slice(4).join('/');
+    if(kind==='blob'&&seg[3]){ctx.branch=seg[3];ctx.branchFromUrl=true;ctx.path=rest;ctx.isFile=!!rest;ctx.subpath='/blob/'+seg[3]+'/'+rest;
+      const m=hash.match(/#L(\d+)(?:-L(\d+))?/);if(m)ctx.lines=[+m[1],m[2]?+m[2]:null];}
+    else if(kind==='tree'&&seg[3]){ctx.branch=seg[3];ctx.branchFromUrl=true;ctx.path=rest;ctx.isFolder=!!rest;ctx.subpath=rest?'/tree/'+seg[3]+'/'+rest:'';}
+    else if(kind==='commit'&&seg[3]){ctx.commit=seg[3].replace(/\.(patch|diff)$/,'');}
+    else if(kind==='pull'&&seg[3]){ctx.pr=seg[3].replace(/\.(patch|diff)$/,'').replace(/\D.*$/,'')||seg[3];}
+    else if(kind==='compare'&&seg[3]){ctx.compare=seg.slice(3).join('/').replace(/\.(patch|diff)$/,'');}
+    else if(['releases','issues','wiki','actions','commits','network','tags','branches','stargazers','forks','graphs','security','pulse','settings'].includes(kind)){/* repo-level page — fine */}
+    else{ctx.unsupported=`the "/${kind}/…" part`;}
+  }
+  return ctx;
+}
+
+/* ---------------- state ---------------- */
+let ctx=null;
+const optState={};   // per-power option values
+let backendOK=false; // titan "run for me" backend detected
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+
+/* ---------------- theme ---------------- */
+const savedTheme=localStorage.getItem('sp_theme');
+if(savedTheme)document.documentElement.dataset.theme=savedTheme;
+else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light';
+$('#themebtn').onclick=()=>{const t=document.documentElement.dataset.theme==='light'?'dark':'light';
+  document.documentElement.dataset.theme=t;localStorage.setItem('sp_theme',t);};
+
+/* ---------------- toast ---------------- */
+let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+
+/* ---------------- third-party warning ---------------- */
+let pendingOpen=null;
+function openPower(pw,res){
+  if(res.copyfirst){navigator.clipboard?.writeText(res.copyfirst).catch(()=>{});}
+  if(pw.kind==='third'&&!localStorage.getItem('sp_warned')){
+    pendingOpen={pw,res};
+    $('#modaldom').textContent=new URL(res.url).hostname;
+    $('#modalback').classList.add('open');
+    return;
+  }
+  doOpen(res);
+}
+function doOpen(res){
+  window.open(res.url,'_blank','noopener,noreferrer');
+  if(res.copyfirst)toast('Repo link copied — paste it on the page that just opened.');
+}
+$('#modalcancel').onclick=()=>{$('#modalback').classList.remove('open');pendingOpen=null;};
+$('#modalgo').onclick=()=>{
+  if($('#modalremember').checked)localStorage.setItem('sp_warned','1');
+  $('#modalback').classList.remove('open');
+  if(pendingOpen)doOpen(pendingOpen.res);
+  pendingOpen=null;
+};
+
+/* ---------------- requirement check ---------------- */
+function missing(pw){
+  if(!ctx||ctx.error)return 'Paste a GitHub link first.';
+  if(pw.needs==='user')return null; // owner always present once parsed
+  if(!ctx.repo)return 'Needs a repo link (owner/repo) — you pasted just a profile.';
+  if(pw.needs==='file'&&!ctx.isFile)return 'Needs a FILE link — open a file on GitHub and paste that URL.';
+  if(pw.needs==='patchable'&&!(ctx.commit||ctx.pr||ctx.compare))return null; // allowed: falls back to latest commit
+  return null;
+}
+function effCtx(){ // ctx + branch override
+  if(!ctx||ctx.error)return ctx;
+  const b=$('#branch').value.trim();
+  return Object.assign({},ctx,{branch:b||ctx.branch||'main'});
+}
+
+/* ---------------- render: chips ---------------- */
+function renderChips(){
+  const el=$('#chips');el.innerHTML='';
+  const add=(html,cls)=>{const s=document.createElement('span');s.className='chip '+(cls||'');s.innerHTML=html;el.appendChild(s);};
+  if(!ctx){add('Waiting for a link… repo, file, folder, commit, PR and profile links all work.');$('#branchrow').style.display='none';return;}
+  if(ctx.error){add('❌ '+ctx.error,'bad');$('#branchrow').style.display='none';return;}
+  add('👤 user <b>'+esc(ctx.owner)+'</b>','ok');
+  if(ctx.repo)add('📁 repo <b>'+esc(ctx.repo)+'</b>','ok');
+  else add('profile only — repo powers stay off','');
+  if(ctx.isFile)add('📄 file <b>'+esc(ctx.path)+'</b>','ok');
+  if(ctx.isFolder)add('🗂️ folder <b>'+esc(ctx.path)+'</b>','ok');
+  if(ctx.commit)add('🔨 commit <b>'+esc(ctx.commit.slice(0,10))+'</b>','ok');
+  if(ctx.pr)add('🔀 PR <b>#'+esc(ctx.pr)+'</b>','ok');
+  if(ctx.compare)add('⚖️ compare <b>'+esc(ctx.compare)+'</b>','ok');
+  if(ctx.lines)add('🎯 lines <b>'+ctx.lines[0]+(ctx.lines[1]?'–'+ctx.lines[1]:'')+'</b>','ok');
+  if(ctx.unsupported)add('⚠️ repo detected, but '+esc(ctx.unsupported)+' isn\'t a link type I use — repo-level powers still work','');
+  $('#branchrow').style.display=ctx.repo?'flex':'none';
+  if(ctx.branchFromUrl){$('#branch').value=ctx.branch;$('#branchsrc').textContent='(read from your link ✓)';}
+  else{$('#branchsrc').textContent='(not in your link — main assumed; flip to master on older repos)';}
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+/* ---------------- render: simple mode ---------------- */
+function renderSimple(){
+  const g=$('#simplegrid');g.innerHTML='';
+  INTENTS.forEach(it=>{
+    const pw=POWERS.find(p=>p.id===it.p);
+    const miss=missing(pw);
+    const b=document.createElement('button');
+    b.className='bigbtn';b.disabled=!!miss;
+    b.innerHTML=`<span class="em">${it.em}</span><span class="t">${it.t}</span><span class="d">${it.d}</span>
+      <span class="via">${miss?('🔒 '+esc(miss)):('via '+pw.name+' · #'+pw.num)}</span>`;
+    if(!miss)b.onclick=()=>{const res=pw.build(effCtx(),optState[pw.id]||{});openPower(pw,res);};
+    g.appendChild(b);
+  });
+}
+
+/* ---------------- render: full deck ---------------- */
+let tierFilter='all';
+function renderDeck(){
+  const g=$('#deckgrid');g.innerHTML='';
+  const q=($('#search').value||'').toLowerCase();
+  const kf=$('#kindfilter').value;
+  POWERS.forEach(pw=>{
+    if(tierFilter!=='all'&&pw.tier!==tierFilter)return;
+    if(kf!=='all'&&pw.kind!==kf)return;
+    if(q&&!(pw.name+' '+pw.desc+' '+pw.when).toLowerCase().includes(q))return;
+    g.appendChild(card(pw));
+  });
+  if(!g.children.length)g.innerHTML='<p style="color:var(--fg2)">No powers match that filter.</p>';
+}
+function card(pw){
+  const miss=missing(pw);
+  const d=document.createElement('div');
+  d.className='card'+(miss?' disabled':'');
+  const pillTxt=pw.kind==='native'?'Stays on GitHub':pw.kind==='cli'?'Terminal tool':'Outside site';
+  let h=`${pw.tier?`<span class="tierlabel ${pw.tier}">${pw.tier.toUpperCase()}</span>`:''}
+  <div class="top"><span class="num">#${String(pw.num).padStart(2,'0')}</span><h3>${pw.emoji} ${pw.name}</h3>
+  <span class="pill ${pw.kind}">${pillTxt}</span></div>
+  <div class="desc">${pw.desc}</div>
+  <div class="when">${pw.when}</div>`;
+  // option controls
+  if(pw.opts&&!miss){
+    h+='<div class="opt">';
+    const st=optState[pw.id]=optState[pw.id]||{};
+    pw.opts.forEach(o=>{
+      if(o.showIf&&st[Object.keys(o.showIf)[0]]!==Object.values(o.showIf)[0])return;
+      h+=`<label>${o.label} `;
+      if(o.type==='select'){h+=`<select data-pw="${pw.id}" data-opt="${o.id}">`+
+        o.choices.map(c=>`<option value="${c[0]}"${st[o.id]===c[0]?' selected':''}>${c[1]}</option>`).join('')+'</select>';}
+      else if(o.type==='number'){h+=`<input type="number" min="1" data-pw="${pw.id}" data-opt="${o.id}" value="${st[o.id]||''}">`;}
+      else if(o.type==='date'){h+=`<input type="date" data-pw="${pw.id}" data-opt="${o.id}" value="${st[o.id]||''}">`;}
+      h+='</label>';
+    });
+    h+='</div>';
+  }
+  if(miss){h+=`<div class="miss">🔒 ${esc(miss)}</div>`;}
+  else{
+    const res=pw.build(effCtx(),optState[pw.id]||{});
+    if(res.note)h+=`<div class="miss" style="color:var(--fg2)">ℹ️ ${esc(res.note)}</div>`;
+    if(res.url)h+=`<div class="url" title="${esc(res.url)}">${esc(res.url)}</div>`;
+    if(res.cmd)h+=`<div class="url" title="${esc(res.cmd)}">$ ${esc(res.cmd)}</div>`;
+    h+='<div class="cardbtns">';
+    if(res.url)h+=`<button class="act primary" data-open="${pw.id}">Open ↗</button>
+                   <button class="act" data-copy="${pw.id}" data-what="url">Copy link</button>`;
+    if(res.cmd)h+=`<button class="act" data-copy="${pw.id}" data-what="cmd">Copy command</button>`;
+    if(res.cmd&&backendOK&&pw.tool)h+=`<button class="act primary" data-run="${pw.id}">▶ Run for me</button>`;
+    h+='</div>';
+  }
+  h+=`<div style="font-size:.66rem;color:var(--fg2);opacity:.6">link verified ${pw.verified}</div>`;
+  d.innerHTML=h;
+  return d;
+}
+
+/* ---------------- deck events (delegated) ---------------- */
+$('#deckgrid').addEventListener('click',e=>{
+  const open=e.target.closest('[data-open]'),copy=e.target.closest('[data-copy]'),run=e.target.closest('[data-run]');
+  if(open){const pw=POWERS.find(p=>p.id===open.dataset.open);openPower(pw,pw.build(effCtx(),optState[pw.id]||{}));}
+  if(copy){const pw=POWERS.find(p=>p.id===copy.dataset.copy);const res=pw.build(effCtx(),optState[pw.id]||{});
+    const txt=copy.dataset.what==='cmd'?res.cmd:res.url;
+    navigator.clipboard.writeText(txt).then(()=>toast('Copied ✓')).catch(()=>toast('Copy failed — select the text manually'));}
+  if(run){const pw=POWERS.find(p=>p.id===run.dataset.run);runForMe(pw,run);}
+});
+$('#deckgrid').addEventListener('change',e=>{
+  const el=e.target.closest('[data-pw]');if(!el)return;
+  (optState[el.dataset.pw]=optState[el.dataset.pw]||{})[el.dataset.opt]=el.value;
+  renderDeck();
+});
+
+/* ---------------- "Run for me" (titan backend only) ---------------- */
+async function detectBackend(){
+  try{const r=await fetch('api/superpowers/ping',{credentials:'same-origin'});
+    if(r.ok){backendOK=true;renderDeck();
+      const a=document.createElement('a');a.href='/';a.textContent='← titan dashboard';
+      a.style.cssText='font-size:.85rem;margin-right:8px';
+      document.querySelector('#themebtn').before(a);}}catch(e){/* standalone file — fine */}
+}
+async function runForMe(pw,btn){
+  const c=effCtx();btn.disabled=true;btn.textContent='⏳ Running…';
+  try{
+    const r=await fetch('api/superpowers/run',{method:'POST',credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({tool:pw.tool,url:`https://github.com/${c.owner}/${c.repo}`})});
+    if(!r.ok)throw new Error(await r.text());
+    const blob=await r.blob();
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=`${c.owner}-${c.repo}-${pw.tool}.txt`;a.click();URL.revokeObjectURL(a.href);
+    toast('Done — file downloaded ✓');
+  }catch(err){toast('Run failed: '+String(err).slice(0,120));}
+  btn.disabled=false;btn.textContent='▶ Run for me';
+}
+
+/* ---------------- mode switch ---------------- */
+function setMode(m){
+  localStorage.setItem('sp_mode',m);
+  $('#simple').classList.toggle('hidden',m==='deck');
+  $('#deck').classList.toggle('hidden',m!=='deck');
+  $('#modebtn').textContent=m==='deck'?'← Back to simple view':'⚙️ Show all 26 powers';
+}
+$('#modebtn').onclick=()=>setMode($('#deck').classList.contains('hidden')?'deck':'simple');
+
+/* ---------------- wiring ---------------- */
+function refresh(){renderChips();renderSimple();renderDeck();}
+$('#url').addEventListener('input',()=>{ctx=parseInput($('#url').value);if(ctx&&!ctx.error&&!ctx.branchFromUrl)$('#branch').value='';
+  if(ctx&&ctx.lines){optState.linelink=Object.assign(optState.linelink||{},{l1:ctx.lines[0],l2:ctx.lines[1]||''});}
+  refresh();});
+$('#branch').addEventListener('input',()=>{renderSimple();renderDeck();});
+$$('.bchip').forEach(b=>b.onclick=()=>{$('#branch').value=b.dataset.b;renderSimple();renderDeck();});
+$('#demobtn').onclick=()=>{$('#url').value='https://github.com/karpathy/nanoGPT';$('#url').dispatchEvent(new Event('input'));};
+$('#search').addEventListener('input',renderDeck);
+$('#kindfilter').addEventListener('change',renderDeck);
+$('#tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(!t)return;
+  tierFilter=t.dataset.tier;$$('.tab').forEach(x=>x.classList.toggle('active',x===t));renderDeck();});
+
+/* ---------------- boot: share link, mode, tests ---------------- */
+(function boot(){
+  const p=new URLSearchParams(location.search);
+  const shared=p.get('repo')||new URLSearchParams(location.hash.replace(/^#\??/,'')).get('repo');
+  if(shared){$('#url').value=shared;ctx=parseInput(shared);}
+  setMode(localStorage.getItem('sp_mode')||'simple');
+  refresh();
+  detectBackend();
+  if(p.get('test')==='1')runTests();
+})();
+
+/* ---------------- ?test=1 parser fixtures ---------------- */
+function runTests(){
+  const cases=[
+    'karpathy/nanoGPT',
+    'https://github.com/karpathy/nanoGPT',
+    'https://github.com/karpathy/nanoGPT.git',
+    'https://github.com/microsoft/vscode/tree/main/src/vs',
+    'https://github.com/karpathy/nanoGPT/blob/master/train.py#L10-L20',
+    'https://github.com/facebook/react/pull/12345',
+    'https://github.com/karpathy/nanoGPT/commit/abc1234def',
+    'https://github.com/microsoft/vscode/compare/main@{1month}...main',
+    'https://github.com/torvalds',
+    'https://github.com/karpathy/nanoGPT/releases',
+    'https://github1s.com/karpathy/nanoGPT',
+    'https://vscode.dev/github/karpathy/nanoGPT',
+    'https://gist.github.com/x/abc',
+    'not a url at all %%%',
+    'https://example.com/foo/bar'
+  ];
+  let h='<h2 class="sec">Parser test fixtures</h2><table><tr><th>input</th><th>result</th></tr>';
+  cases.forEach(s=>{const r=parseInput(s);
+    h+=`<tr><td><code>${esc(s)}</code></td><td><code>${esc(r.error?('ERR: '+r.error):JSON.stringify({owner:r.owner,repo:r.repo,branch:r.branch,path:r.path,file:r.isFile,folder:r.isFolder,commit:r.commit,pr:r.pr,compare:r.compare,lines:r.lines,unsup:r.unsupported}))}</code></td></tr>`;});
+  $('#testout').innerHTML=h+'</table>';
+}
+</script>
+</body>
+</html>
