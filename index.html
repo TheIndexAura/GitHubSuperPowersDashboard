@@ -11,6 +11,7 @@
   --warn:#d29922; --danger:#f85149; --pill-native:#1f6feb33; --pill-native-fg:#79c0ff;
   --pill-third:#d2992233; --pill-third-fg:#e3b341; --pill-cli:#8957e533; --pill-cli-fg:#b392f0;
   --card-shadow:0 2px 10px rgba(0,0,0,.35); --radius:12px;
+  --btn:#1f6feb; --showoff:#db61a2;
 }
 [data-theme="light"]{
   --bg:#f6f8fa; --bg2:#ffffff; --bg3:#eef1f4; --border:#d0d7de;
@@ -18,6 +19,7 @@
   --warn:#9a6700; --danger:#cf222e; --pill-native:#ddf4ff; --pill-native-fg:#0969da;
   --pill-third:#fff8c5; --pill-third-fg:#7d4e00; --pill-cli:#fbefff; --pill-cli-fg:#8250df;
   --card-shadow:0 1px 4px rgba(31,35,40,.12);
+  --btn:#0969da; --showoff:#bf3989;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -26,6 +28,7 @@ body{background:var(--bg);color:var(--fg);font-family:-apple-system,"Segoe UI",R
 code,kbd,.url{font-family:ui-monospace,SFMono-Regular,"Cascadia Mono",Consolas,monospace}
 a{color:var(--accent)}
 button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px}
 
 /* header */
@@ -41,8 +44,8 @@ header{display:flex;align-items:center;gap:12px;padding:22px 0 8px;flex-wrap:wra
 .inputrow{display:flex;gap:10px;flex-wrap:wrap}
 #url{flex:1;min-width:260px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--fg);padding:12px 14px;font-size:1.02rem}
 #url:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
-.demo{background:var(--accent);color:#fff;border-radius:8px;padding:12px 18px;font-weight:600}
-.demo:hover{filter:brightness(1.1)}
+.demo{background:var(--btn);color:#fff;border-radius:8px;padding:12px 18px;font-weight:600}
+.demo:hover{filter:brightness(.9)}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;min-height:28px;align-items:center}
 .chip{background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:3px 12px;font-size:.82rem;color:var(--fg2)}
 .chip b{color:var(--fg);font-weight:600}
@@ -62,22 +65,22 @@ header{display:flex;align-items:center;gap:12px;padding:22px 0 8px;flex-wrap:wra
 .simplegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:18px}
 .bigbtn{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;text-align:left;box-shadow:var(--card-shadow);transition:transform .12s,border-color .12s;display:block;width:100%}
 .bigbtn:hover:not(:disabled){transform:translateY(-3px);border-color:var(--accent)}
-.bigbtn:disabled{opacity:.45;cursor:not-allowed}
+.bigbtn:disabled{filter:grayscale(1);border-style:dashed;cursor:not-allowed}
 .bigbtn .em{font-size:1.9rem;display:block;margin-bottom:8px}
 .bigbtn .t{font-size:1.08rem;font-weight:700;display:block}
 .bigbtn .d{font-size:.88rem;color:var(--fg2);display:block;margin-top:4px}
-.bigbtn .via{font-size:.75rem;color:var(--fg2);display:block;margin-top:10px;opacity:.8}
+.bigbtn .via{font-size:.75rem;color:var(--fg2);display:block;margin-top:10px}
 
 /* deck mode */
 .deckbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 14px}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tab{border:1px solid var(--border);background:var(--bg2);border-radius:999px;padding:5px 14px;font-size:.85rem;color:var(--fg2)}
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab.active{background:var(--btn);color:#fff;border-color:var(--btn)}
 #search{background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg);padding:7px 12px;font-size:.9rem;min-width:170px;flex:1;max-width:260px}
 #kindfilter{background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg);padding:7px 10px;font-size:.9rem}
 .deckgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:8px;position:relative}
-.card.disabled{opacity:.5}
+.card.disabled{filter:grayscale(1);border-style:dashed}
 .card .top{display:flex;align-items:center;gap:8px}
 .num{background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-size:.72rem;padding:1px 7px;color:var(--fg2);font-weight:700}
 .card h3{font-size:1rem;font-weight:700;flex:1}
@@ -86,14 +89,14 @@ header{display:flex;align-items:center;gap:12px;padding:22px 0 8px;flex-wrap:wra
 .pill.third{background:var(--pill-third);color:var(--pill-third-fg)}
 .pill.cli{background:var(--pill-cli);color:var(--pill-cli-fg)}
 .card .desc{font-size:.87rem;color:var(--fg2)}
-.card .when{font-size:.78rem;color:var(--fg2);opacity:.85;border-left:3px solid var(--border);padding-left:8px}
+.card .when{font-size:.78rem;color:var(--fg2);border-left:3px solid var(--border);padding-left:8px}
 .card .url{font-size:.74rem;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px}
 .card .miss{font-size:.8rem;color:var(--warn)}
 .cardbtns{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
 .act{border:1px solid var(--border);background:var(--bg3);border-radius:7px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--fg)}
 .act:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.act.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.act.primary:hover:not(:disabled){filter:brightness(1.12);color:#fff}
+.act.primary{background:var(--btn);color:#fff;border-color:var(--btn)}
+.act.primary:hover:not(:disabled){filter:brightness(.9);color:#fff}
 .act:disabled{opacity:.5;cursor:not-allowed}
 .opt{display:flex;gap:6px;align-items:center;font-size:.78rem;color:var(--fg2);flex-wrap:wrap}
 .opt select,.opt input{background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--fg);padding:3px 7px;font-size:.78rem}
@@ -102,7 +105,7 @@ header{display:flex;align-items:center;gap:12px;padding:22px 0 8px;flex-wrap:wra
 .tierlabel.daily{color:var(--accent2);border-color:var(--accent2)}
 .tierlabel.weekly{color:var(--accent);border-color:var(--accent)}
 .tierlabel.situational{color:var(--warn);border-color:var(--warn)}
-.tierlabel.showoff{color:#db61a2;border-color:#db61a2}
+.tierlabel.showoff{color:var(--showoff);border-color:var(--showoff)}
 
 /* modal */
 .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
@@ -135,18 +138,18 @@ h2.sec{font-size:1.05rem;margin:22px 0 4px;color:var(--fg2);font-weight:600}
   <div class="tag">Paste a GitHub link. Click a power. That's it — 26 cheat codes, zero setup.</div>
   <a class="iconbtn" href="https://github.com/TheIndexAura/GitHubSuperPowersDashboard"
      target="_blank" rel="noopener noreferrer" style="text-decoration:none" title="Star this project on GitHub">⭐ Star on GitHub</a>
-  <button class="iconbtn" id="themebtn" title="Switch light/dark">🌓</button>
+  <button class="iconbtn" id="themebtn" title="Switch light/dark" aria-label="Switch between light and dark theme">🌓</button>
 </header>
 
 <div class="inputzone">
   <div class="inputrow">
-    <input id="url" type="text" spellcheck="false" autocomplete="off"
+    <input id="url" type="text" spellcheck="false" autocomplete="off" aria-label="GitHub link"
       placeholder="Paste a GitHub link here — like https://github.com/karpathy/nanoGPT (or just owner/repo)">
     <button class="demo" id="demobtn" title="Load an example repo">Try a demo repo</button>
   </div>
   <div class="chips" id="chips"><span class="chip">Waiting for a link… works with repo, file, folder, commit, PR and profile links. Some rare link types aren't supported — the chips below will tell you honestly.</span></div>
   <div class="branchrow" id="branchrow">
-    <span>Branch (the version line of the code — usually <code>main</code>):</span>
+    <label for="branch">Branch (the version line of the code — usually <code>main</code>):</label>
     <input id="branch" placeholder="main" spellcheck="false">
     <button class="bchip" data-b="main">main</button>
     <button class="bchip" data-b="master">master</button>
@@ -168,19 +171,19 @@ h2.sec{font-size:1.05rem;margin:22px 0 4px;color:var(--fg2);font-weight:600}
 <section id="deck" class="hidden">
   <div class="deckbar">
     <div class="tabs" id="tabs">
-      <button class="tab active" data-tier="all">All 26</button>
-      <button class="tab" data-tier="daily">Daily</button>
-      <button class="tab" data-tier="weekly">Weekly</button>
-      <button class="tab" data-tier="situational">Situational</button>
-      <button class="tab" data-tier="showoff">Show-off</button>
+      <button class="tab active" data-tier="all" aria-pressed="true">All 26</button>
+      <button class="tab" data-tier="daily" aria-pressed="false">Daily</button>
+      <button class="tab" data-tier="weekly" aria-pressed="false">Weekly</button>
+      <button class="tab" data-tier="situational" aria-pressed="false">Situational</button>
+      <button class="tab" data-tier="showoff" aria-pressed="false">Show-off</button>
     </div>
-    <select id="kindfilter">
+    <select id="kindfilter" aria-label="Filter powers by type">
       <option value="all">All types</option>
       <option value="native">Stays on GitHub</option>
       <option value="third">Outside sites</option>
       <option value="cli">Terminal tools</option>
     </select>
-    <input id="search" type="search" placeholder="Search powers…">
+    <input id="search" type="search" placeholder="Search powers…" aria-label="Search powers">
   </div>
   <div class="deckgrid" id="deckgrid"></div>
 </section>
@@ -197,8 +200,8 @@ h2.sec{font-size:1.05rem;margin:22px 0 4px;color:var(--fg2);font-weight:600}
 
 <!-- third-party warning modal -->
 <div class="modal-back" id="modalback">
-  <div class="modal" role="dialog" aria-modal="true">
-    <h3>⚠️ Heads up — leaving GitHub</h3>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modaltitle">
+    <h3 id="modaltitle">⚠️ Heads up — leaving GitHub</h3>
     <p>This power sends the repo's address to an outside website: <span class="dom" id="modaldom"></span></p>
     <p><b>Public repos only.</b> Never use outside tools on private code, secrets, or keys — you don't control their servers.</p>
     <label><input type="checkbox" id="modalremember" checked> Got it — don't warn me again on this device</label>
@@ -209,7 +212,7 @@ h2.sec{font-size:1.05rem;margin:22px 0 4px;color:var(--fg2);font-weight:600}
   </div>
 </div>
 
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 'use strict';
@@ -419,28 +422,45 @@ let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList
   clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
 
 /* ---------------- third-party warning ---------------- */
-let pendingOpen=null;
+let pendingOpen=null,modalReturnFocus=null;
 function openPower(pw,res){
   if(res.copyfirst){navigator.clipboard?.writeText(res.copyfirst).catch(()=>{});}
   if(pw.kind==='third'&&!localStorage.getItem('sp_warned')){
     pendingOpen={pw,res};
     $('#modaldom').textContent=new URL(res.url).hostname;
+    modalReturnFocus=document.activeElement;
     $('#modalback').classList.add('open');
+    $('#modalgo').focus();
     return;
   }
   doOpen(res);
+}
+function closeModal(){
+  $('#modalback').classList.remove('open');
+  if(modalReturnFocus&&modalReturnFocus.isConnected)modalReturnFocus.focus();
+  modalReturnFocus=null;
 }
 function doOpen(res){
   window.open(res.url,'_blank','noopener,noreferrer');
   if(res.copyfirst)toast('Repo link copied — paste it on the page that just opened.');
 }
-$('#modalcancel').onclick=()=>{$('#modalback').classList.remove('open');pendingOpen=null;};
+$('#modalcancel').onclick=()=>{closeModal();pendingOpen=null;};
 $('#modalgo').onclick=()=>{
   if($('#modalremember').checked)localStorage.setItem('sp_warned','1');
-  $('#modalback').classList.remove('open');
+  closeModal();
   if(pendingOpen)doOpen(pendingOpen.res);
   pendingOpen=null;
 };
+document.addEventListener('keydown',e=>{
+  if(!$('#modalback').classList.contains('open'))return;
+  if(e.key==='Escape'){e.preventDefault();$('#modalcancel').click();return;}
+  if(e.key==='Tab'){ // keep Tab inside the dialog
+    const f=[...$('#modalback').querySelectorAll('input,button')];
+    const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+});
 
 /* ---------------- requirement check ---------------- */
 function missing(pw){
@@ -540,13 +560,14 @@ function card(pw){
     if(res.url)h+=`<div class="url" title="${esc(res.url)}">${esc(res.url)}</div>`;
     if(res.cmd)h+=`<div class="url" title="${esc(res.cmd)}">$ ${esc(res.cmd)}</div>`;
     h+='<div class="cardbtns">';
-    if(res.url)h+=`<button class="act primary" data-open="${pw.id}">Open ↗</button>
-                   <button class="act" data-copy="${pw.id}" data-what="url">Copy link</button>`;
-    if(res.cmd)h+=`<button class="act" data-copy="${pw.id}" data-what="cmd">Copy command</button>`;
-    if(res.cmd&&backendOK&&pw.tool)h+=`<button class="act primary" data-run="${pw.id}">▶ Run for me</button>`;
+    const nm=esc(pw.name);
+    if(res.url)h+=`<button class="act primary" data-open="${pw.id}" aria-label="Open ${nm} in a new tab">Open ↗</button>
+                   <button class="act" data-copy="${pw.id}" data-what="url" aria-label="Copy link for ${nm}">Copy link</button>`;
+    if(res.cmd)h+=`<button class="act" data-copy="${pw.id}" data-what="cmd" aria-label="Copy command for ${nm}">Copy command</button>`;
+    if(res.cmd&&backendOK&&pw.tool)h+=`<button class="act primary" data-run="${pw.id}" aria-label="Run ${nm} for me">▶ Run for me</button>`;
     h+='</div>';
   }
-  h+=`<div style="font-size:.66rem;color:var(--fg2);opacity:.6">link verified ${pw.verified}</div>`;
+  h+=`<div style="font-size:.66rem;color:var(--fg2)">link verified ${pw.verified}</div>`;
   d.innerHTML=h;
   return d;
 }
@@ -564,6 +585,7 @@ $('#deckgrid').addEventListener('change',e=>{
   const el=e.target.closest('[data-pw]');if(!el)return;
   (optState[el.dataset.pw]=optState[el.dataset.pw]||{})[el.dataset.opt]=el.value;
   renderDeck();
+  const again=$(`[data-pw="${el.dataset.pw}"][data-opt="${el.dataset.opt}"]`);if(again)again.focus();
 });
 
 /* ---------------- "Run for me" (titan backend only) ---------------- */
@@ -609,13 +631,14 @@ $('#demobtn').onclick=()=>{$('#url').value='https://github.com/karpathy/nanoGPT'
 $('#search').addEventListener('input',renderDeck);
 $('#kindfilter').addEventListener('change',renderDeck);
 $('#tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(!t)return;
-  tierFilter=t.dataset.tier;$$('.tab').forEach(x=>x.classList.toggle('active',x===t));renderDeck();});
+  tierFilter=t.dataset.tier;$$('.tab').forEach(x=>{x.classList.toggle('active',x===t);x.setAttribute('aria-pressed',x===t?'true':'false');});renderDeck();});
 
 /* ---------------- boot: share link, mode, tests ---------------- */
 (function boot(){
   const p=new URLSearchParams(location.search);
   const shared=p.get('repo')||new URLSearchParams(location.hash.replace(/^#\??/,'')).get('repo');
-  if(shared){$('#url').value=shared;ctx=parseInput(shared);}
+  if(shared){$('#url').value=shared;ctx=parseInput(shared);
+    if(ctx&&ctx.lines)optState.linelink={l1:ctx.lines[0],l2:ctx.lines[1]||''};}
   setMode(localStorage.getItem('sp_mode')||'simple');
   refresh();
   detectBackend();
